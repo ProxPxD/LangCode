@@ -1,0 +1,51 @@
+[project]
+name = "langcode"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "ProxPxD", email = "piotr10tutek@poczta.onet.pl" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+langcode = "langcode:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.basedpyright]
+deprecateTypingAliases = false
+reportMissingTypeStubs = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+reportUnknownMemberType = false
+reportExplicitAny = false
+reportAny = false
+strictParameterNoneValue = false
+reportUnknownLambdaType = false
+reportOptionalOperand = false
+reportUnusedParameter = false  # Handled by Ruff
+reportRedeclaration = false
+reportMissingTypeArgument = 'none'
+reportUnknownParameterType = false
+reportArgumentType = 'none'
+typeCheckingMode = 'basic'
+reportAssignmentType = 'none'
+
+[tool.pytest.ini_options]
+testpaths = ['testing']
+pythonpath = ['src']
+addopts = [
+    '--ignore=testing/core',
+    '-s',
+]
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.40.2",
+    "pytest>=9.2.0",
+    "ruff>=0.17.5",
+]
