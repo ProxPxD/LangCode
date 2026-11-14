@@ -1,21 +1,23 @@
 import logging
 from argparse import Namespace
-from os import lchown
 
-from src.loop_mging.input_mgr import InputMgr
-from src.cli.outer_cli import OuterCLI, Modes
-from src.loading import GenLoader
-from src.logic.conf.fcn import FCN
+from src.cli.outer_cli import Modes, OuterCLI
 from src.context.context import Context
+from src.loading import LoaderProvider, LoaderKind
+from src.logic.conf.fcn import FCN
 from src.logic.db import GDM, LoginData
 from src.logic.sci import SCI
+from src.loop_mging.input_mgr import InputMgr
+lazy from src.loading.abstract_loaders import Loader
 
 
 class LCM:
     """
     Lang Code Manager
     """
-    def __init__(self, *, log: LoginData):
+    def __init__(self, *, log: LoginData) -> None:
+        self.loader: Loader = LoaderProvider.get(LoaderKind.ALL)
+        ...
         self.outer_cli = OuterCLI()
         self.input_mgr = InputMgr()
         self.gdm: GDM = GDM(log)

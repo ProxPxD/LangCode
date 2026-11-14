@@ -17,7 +17,7 @@ FILE_LOADERS = {
     LoaderKind.JSON: FileLoader(lambda f: json.load(f), '.json'),
 }
 
-class DataLoaderProvider:
+class LoaderProvider:
     @classmethod
     def get(cls, kind: LoaderKind) -> Loader:
         match kind:
