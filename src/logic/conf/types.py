@@ -1,4 +1,4 @@
-from types import NoneType
+from datatypes import NoneType
 
 SimpleYamlType = bool | str | int | NoneType
 ComplexYamlType = dict | list

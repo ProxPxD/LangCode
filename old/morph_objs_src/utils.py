@@ -5,7 +5,7 @@ from copy import copy
 from functools import wraps
 from math import ceil
 from operator import *
-from types import NoneType, UnionType
+from datatypes import NoneType, UnionType
 from typing import Iterable, Callable, Any, AnyStr, Dict, Type, TypeVar, Sequence
 
 import pydash as _

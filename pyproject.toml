@@ -6,15 +6,11 @@ readme = "README.md"
 authors = [
     { name = "ProxPxD", email = "piotr10tutek@poczta.onet.pl" }
 ]
-requires-python = ">=3.12"
-dependencies = []
-
-[project.scripts]
-langcode = "langcode:main"
-
-[build-system]
-requires = ["uv_build>=0.12.10,<0.13.0"]
-build-backend = "uv_build"
+requires-python = ">=3.15"
+dependencies = [
+    "pydash>=8.1.0",
+    "pyyaml>=6.0.3",
+]
 
 [tool.basedpyright]
 deprecateTypingAliases = false
@@ -42,6 +38,9 @@ addopts = [
     '--ignore=testing/core',
     '-s',
 ]
+
+[tool.ruff]
+target-version = "py315"
 
 [dependency-groups]
 dev = [

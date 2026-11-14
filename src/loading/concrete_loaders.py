@@ -1,17 +1,25 @@
-import json
+from enum import StrEnum, auto
+lazy import json
 
-import yaml
+lazy import yaml
 
-from src.loading.abstract_loaders import FileLoader, DirLoader
+from src.loading.abstract_loaders import DirLoader, FileLoader, Loader
 
-basic_file_loaders = [
-    yaml_file_loader := FileLoader(yaml.safe_load, ('.yaml', '.yml')),
-    json_file_loader := FileLoader(json.load, '.json'),
-    # TODO: toml loader
-]
 
-basic_loaders = [
-    yaml_loader := DirLoader(yaml_file_loader),
-    json_loader := DirLoader(json_file_loader),
-]
-GenLoader = DirLoader(*basic_file_loaders)
+class LoaderKind(StrEnum):
+    ALL = auto()
+    YAML = auto()
+    JSON = auto()
+
+
+FILE_LOADERS = {
+    LoaderKind.YAML: FileLoader(lambda f: yaml.safe_load(f), ('.yaml', '.yml')),
+    LoaderKind.JSON: FileLoader(lambda f: json.load(f), '.json'),
+}
+
+class DataLoaderProvider:
+    @classmethod
+    def get(cls, kind: LoaderKind) -> Loader:
+        match kind:
+            case LoaderKind.ALL: return DirLoader(*tuple(FILE_LOADERS.values()))
+            case _: return FILE_LOADERS[kind]

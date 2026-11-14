@@ -49,3 +49,12 @@ class DBConf:
     @property
     def update_endpoint(self) -> str:
         return f'{self.endpoint}/statements'
+
+# DBConf(
+#         auth=Auth(
+#             user=os.environ['TEST_DB_USER'],
+#             password=os.environ['TEST_DB_PASSWORD'],
+#         ),
+#         conn_params=ConnectionParameters.from_uri('http://localhost:7020'),
+#         repo='mozg-test',
+#     )
