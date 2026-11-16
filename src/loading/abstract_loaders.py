@@ -41,7 +41,7 @@ class DirLoader:
     def _pick_file_loader(self, path: Path) -> FileLoader | None:
         return _.find(self.file_loaders, lambda loader: loader.is_loadable(path))  # pyright: ignore[reportCallIssue, reportAttributeAccessIssue]
 
-    def load(self, file: PathLike = None) -> DataType:
+    def load(self, file: PathLike) -> DataType:
         file = Path(file)
         if file.is_file():
             return self._load_file(file)
