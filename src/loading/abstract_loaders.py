@@ -1,6 +1,6 @@
 lazy from collections.abc import Callable, Sequence
 lazy from pathlib import Path
-lazy from typing import Any, Protocol, TextIO
+lazy from typing import Protocol, TextIO
 
 import pydash as _
 
