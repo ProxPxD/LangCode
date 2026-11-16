@@ -16,7 +16,7 @@ class LCM:
     Lang Code Manager
     """
     def __init__(self, *, log: LoginData) -> None:
-        self.loader: Loader = LoaderProvider.get(LoaderKind.ALL)
+        self.loader: Loader = LoaderProvider.get_for(LoaderKind.ALL)
         ...
         self.outer_cli = OuterCLI()
         self.input_mgr = InputMgr()
