@@ -8,14 +8,15 @@ lazy from datatypes import DataType
 
 type PathLike = str | Path
 
+class Loader(Protocol):
+    def load(self, file: PathLike) -> DataType: ...
+
+
 class IPathAttr:
     def __init__(self, path: PathLike = None, *args: Any, **kwargs: Any) -> None:
         self.path: Path | None = Path(path) if path else None
         super().__init__(*args, **kwargs)
 
-
-class Loader(Protocol):
-    def load(self, file: PathLike) -> DataType: ...
 
 class FileLoader:
     def __init__(self,
