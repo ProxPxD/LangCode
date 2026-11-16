@@ -12,12 +12,6 @@ class Loader(Protocol):
     def load(self, file: PathLike) -> DataType: ...
 
 
-class IPathAttr:
-    def __init__(self, path: PathLike = None, *args: Any, **kwargs: Any) -> None:
-        self.path: Path | None = Path(path) if path else None
-        super().__init__(*args, **kwargs)
-
-
 class FileLoader:
     def __init__(self,
             load: Callable[[PathLike | TextIO], dict],
@@ -40,16 +34,15 @@ class FileLoader:
         return result
 
 
-class DirLoader(IPathAttr):
-    def __init__(self, *file_loaders: FileLoader, **kwargs: Any) -> None:
+class DirLoader:
+    def __init__(self, *file_loaders: FileLoader) -> None:
         self.file_loaders = file_loaders
-        super().__init__(**kwargs)
 
     def _pick_file_loader(self, path: Path) -> FileLoader | None:
         return _.find(self.file_loaders, lambda loader: loader.is_loadable(path))  # pyright: ignore[reportCallIssue, reportAttributeAccessIssue]
 
     def load(self, file: PathLike = None) -> DataType:
-        file = Path(file) or self.path
+        file = Path(file)
         if file.is_file():
             return self._load_file(file)
         if file.is_dir():
@@ -67,4 +60,3 @@ class DirLoader(IPathAttr):
             for subpath in path.iterdir()
             if (content := self.load(subpath)) is not None
         }
-
