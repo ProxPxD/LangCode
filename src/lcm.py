@@ -3,7 +3,7 @@ from argparse import Namespace
 
 from src.cli.outer_cli import Modes, OuterCLI
 from src.context.context import Context
-from src.loading import LoaderProvider, LoaderKind
+from src.loading import LoaderKind, LoaderProvider
 from src.logic.conf.fcn import FCN
 from src.logic.db import GDM, LoginData
 from src.logic.sci import SCI

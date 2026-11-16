@@ -3,7 +3,7 @@ lazy import json
 
 lazy import yaml
 
-from src.loading.abstract_loaders import DirLoader, FileLoader, Loader
+from .abstract_loaders import DirLoader, FileLoader, Loader
 
 
 class LoaderKind(StrEnum):
