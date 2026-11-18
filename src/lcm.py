@@ -1,14 +1,14 @@
 import logging
 from argparse import Namespace
 
-from src.cli.outer_cli import Modes, OuterCLI
-from src.context.context import Context
-from src.loading import LoaderKind, LoaderProvider
-from src.logic.conf.fcn import FCN
-from src.logic.db import GDM, LoginData
-from src.logic.sci import SCI
-from src.loop_mging.input_mgr import InputMgr
-lazy from src.loading.abstract_loaders import Loader
+from cli.outer_cli import Modes, OuterCLI
+from context.context import Context
+from loading import LoaderKind, LoaderProvider
+from logic.conf.fcn import FCN
+from logic.db import GDM, LoginData
+from logic.sci import SCI
+from loop_mging.input_mgr import InputMgr
+lazy from loading.abstract_loaders import Loader
 
 
 class LCM:
