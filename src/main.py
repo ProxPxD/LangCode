@@ -1,14 +1,14 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# sys.path.insert(0, str(Path(__file__).parlsent.parent))
 
-from src.logic.consts.db import rdf_log, URI_PREFIX
+# from src.logic.consts.db import rdf_log, URI_PREFIX
 from src.lcm import LCM
-from uuid import uuid1
+# from uuid import uuid1
 
 
-lcm = LCM(log=rdf_log)
+lcm = LCM()
 lcm.run()
 
 exit(0)
@@ -22,7 +22,7 @@ PREFIX : <{URI_PREFIX}>
 ############
 # Ontology #
 ############
-INSERT DATA {{ 
+INSERT DATA {{
     :is owl:inverseOf :ex .
 }}
 
@@ -30,10 +30,10 @@ INSERT DATA {{
 # Rels #
 ########
 INSERT {{
-    ?latin 
+    ?latin
         :name "latin";
         :is :str;
-        :ex 
+        :ex
             [:val 'a'],
             [:val 'b'],
             [:val 'c'],

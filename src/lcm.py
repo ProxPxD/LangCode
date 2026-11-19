@@ -1,31 +1,36 @@
 import logging
 from argparse import Namespace
+from re import S
 
-from cli.outer_cli import Modes, OuterCLI
-from context.context import Context
+# from cli.outer_cli import Modes, OuterCLI
+# from context.context import Context
 from loading import LoaderKind, LoaderProvider
-from logic.conf.fcn import FCN
-from logic.db import GDM, LoginData
-from logic.sci import SCI
-from loop_mging.input_mgr import InputMgr
+# from logic.conf.fcn import FCN
+# from logic.db import GDM, LoginData
+# from logic.sci import SCI
+# from loop_mging.input_mgr import InputMgr
 lazy from loading.abstract_loaders import Loader
+from src.tui.app import TerminalTUI
 
 
 class LCM:
     """
     Lang Code Manager
     """
-    def __init__(self, *, log: LoginData) -> None:
+    def __init__(self, *, log = None) -> None:
         self.loader: Loader = LoaderProvider.get_for(LoaderKind.ALL)
+        self.tui = TerminalTUI()
         ...
-        self.outer_cli = OuterCLI()
-        self.input_mgr = InputMgr()
-        self.gdm: GDM = GDM(log)
-        self.fcn = FCN()
-        self.sci: SCI = SCI()
-        self.context = Context()
+        # self.outer_cli = OuterCLI()
+        # self.input_mgr = InputMgr()
+        # self.gdm: GDM = GDM(log)
+        # self.fcn = FCN()
+        # self.sci: SCI = SCI()
+        # self.context = Context()
 
     def run(self) -> None:
+        self.tui.run()
+        return
         parsed: Namespace = self.outer_cli.parse()  # TODO: add a proper application context
         match parsed.cmd:
             case Modes.start: self.run_loop()

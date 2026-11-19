@@ -10,6 +10,8 @@ requires-python = ">=3.15"
 dependencies = [
     "pydash>=8.1.0",
     "pyyaml>=6.0.3",
+    "textual>=8.2.8",
+    "textual-widgets>=0.32.2",
 ]
 
 [tool.pyrefly]
