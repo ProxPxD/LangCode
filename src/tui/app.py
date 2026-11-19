@@ -21,6 +21,11 @@ class TerminalTUI(App):
         width: 1;
     }}
 
+    {VerticalSplitter.__name__}:hover,
+    {VerticalSplitter.__name__}:active {{
+        background: darkgreen;
+    }}
+
     .{WidgetClass.TITLE} {{
         height: 1;
     }}
@@ -35,6 +40,25 @@ class TerminalTUI(App):
 
     .{WidgetClass.SHOW_COLUMN} {{
         width: 1fr;
+    }}
+
+    {RichLog.__name__}:focus, {Input.__name__}:focus {{
+        background-tint: transparent;
+    }}
+
+    .{WidgetClass.SHOW_CONTENT} {{
+        background: transparent;
+    }}
+
+    {RichLog.__name__} {{
+        scrollbar-size-vertical: 1;
+        scrollbar-size-horizontal: 0;
+
+        scrollbar-color: $text-muted 25%;
+        scrollbar-color-hover: $text-muted 60%;
+
+        scrollbar-background: transparent;
+        scrollbar-background-hover: transparent;
     }}
     '''
 

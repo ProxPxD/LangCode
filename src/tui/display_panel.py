@@ -3,7 +3,7 @@ from textual.containers import Vertical
 from textual.widget import Widget
 from textual.widgets import RichLog, Static
 
-from src.tui.const import WidgetClass, WidgetID
+from src.tui.const import TextFormatting, WidgetClass, WidgetID
 
 
 class DisplayPanel(Vertical):
@@ -11,6 +11,6 @@ class DisplayPanel(Vertical):
         super().__init__(id=WidgetID.DISPLAY_COLUMN, classes=f'{WidgetClass.COLUMN} {WidgetClass.SHOW_COLUMN}')
 
     def compose(self) -> ComposeResult:
-        yield Static("[bold cyan]Display[/]\n", classes=WidgetClass.TITLE)
-        yield RichLog(id="display-log", wrap=True, markup=True)
+        yield Static(f"[{TextFormatting.TITLE}]Display[/]\n", classes=WidgetClass.TITLE)
+        yield RichLog(id="display-log", wrap=True, markup=True, classes=WidgetClass.SHOW_CONTENT)
 
