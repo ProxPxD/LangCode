@@ -1,3 +1,4 @@
+from textual import events
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widget import Widget
@@ -26,7 +27,7 @@ class CmdLine(Horizontal):
 
 class Terminal(Vertical):
     DEFAULT_CSS = f'''
-        #{WidgetID.CMD_HISTORY} {{
+        #{WidgetID.CMD_LOG} {{
             border: none;
             background: $surface;
             padding: 0;
@@ -44,28 +45,14 @@ class Terminal(Vertical):
     '''
 
     def compose(self) -> ComposeResult:
-        yield RichLog(wrap=True, markup=True, id=WidgetID.CMD_HISTORY)
+        yield RichLog(wrap=True, markup=True, id=WidgetID.CMD_LOG)
         yield CmdLine()
 
-class ConsolePane(Vertical):
-    DEFAULT_CSS = f'''
-        {Terminal.__name__} {{
-            /*border: round;*/
-        }}
+    def _on_click(self, event: events.Click) -> None:
+        self.query_one(f'#{WidgetID.CMD_INPUT}').focus()
 
-    '''
-    def compose(self) -> ComposeResult:
-        yield Static(f'[{TextFormatting.TITLE}]{TuiText.MAIN}[/]', classes=WidgetClass.TITLE)
-        yield Terminal()
 
 class ContextPane(Vertical):
-    DEFAULT_CSS = f'''
-        {ConsolePane.__name__} {{
-            border: none;
-            padding: 0;
-            background: $surface;
-        }}
-    '''
     def __init__(self) -> None:
         super().__init__(id=WidgetID.CONTEXT_PANE)
 
@@ -79,8 +66,12 @@ class ContextPane(Vertical):
 
 class MainColumn(Vertical):
     DEFAULT_CSS = f'''
-        {ConsolePane.__name__} {{
+        {Terminal.__name__} {{
             height: 5fr;
+            border: none;
+             /*border: round;*/
+            padding: 0;
+            background: $surface;
         }}
 
         {ContextPane.__name__} {{
@@ -95,5 +86,6 @@ class MainColumn(Vertical):
         )
 
     def compose(self) -> ComposeResult:
-        yield ConsolePane()
+        yield Static(f'[{TextFormatting.TITLE}]{TuiText.MAIN}[/]', classes=WidgetClass.TITLE)
+        yield Terminal()
         yield ContextPane()

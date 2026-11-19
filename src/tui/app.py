@@ -6,7 +6,7 @@ from textual.widget import Widget
 from textual.widgets import Input, RichLog, Static
 from textual_widgets import VerticalSplitter
 
-from src.tui.const import WidgetClass, WidgetID
+from src.tui.const import TuiText, WidgetClass, WidgetID
 from src.tui.display_panel import DisplayPanel
 from src.tui.main_column import MainColumn
 from src.tui.view_panel import ViewPanel
@@ -22,7 +22,7 @@ class TerminalTUI(App):
     }}
 
     {VerticalSplitter.__name__}:hover,
-    {VerticalSplitter.__name__}:active {{
+    {VerticalSplitter.__name__}.dragging {{
         background: darkgreen;
     }}
 
@@ -79,56 +79,36 @@ class TerminalTUI(App):
             yield VerticalSplitter()
             yield DisplayPanel()
 
-    # def on_mount(self) -> None:
-    #     self.query_one("#view-log", RichLog).write(
-    #         "[green]$ system monitor[/]\n"
-    #         "CPU: 12%\n"
-    #         "RAM: 4.2 GB\n"
-    #         "Processes: 128\n"
-    #         "Network: connected"
-    #     )
+    def on_mount(self) -> None:
+        self.query_one(f'#{WidgetID.CMD_INPUT}', Input).focus()
 
-    #     self.query_one("#display-log", RichLog).write(
-    #         "[green]$ application logs[/]\n"
-    #         "[dim]10:32:01[/] Application started\n"
-    #         "[dim]10:32:02[/] Configuration loaded\n"
-    #         "[yellow]10:32:05[/] Waiting for input..."
-    #     )
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        command = event.value.strip()
+        event.input.value = ""
 
-    #     self.query_one("#repl-log", RichLog).write(
-    #         "[bold green]Interactive REPL[/]\n"
-    #         "Type 'help' to see available commands."
-    #     )
+        if not command:
+            return
 
-    #     self.query_one("#command", Input).focus()
+        self.history.append(command)
+        self.history_index = len(self.history)
 
-    # def on_input_submitted(self, event: Input.Submitted) -> None:
-    #     command = event.value.strip()
-    #     event.input.value = ""
+        log = self.query_one(f'#{WidgetID.CMD_LOG}', RichLog)
+        log.write(f'{TuiText.PROMPT} {command}')
 
-    #     if not command:
-    #         return
+        if command == "help":
+            log.write("Available commands: help, status, clear, exit")
 
-    #     self.history.append(command)
-    #     self.history_index = len(self.history)
+        elif command == "status":
+            log.write("Application is running.")
 
-    #     log = self.query_one("#repl-log", RichLog)
-    #     log.write(f"[bold cyan]>>> {command}[/]")
+        elif command == "clear":
+            log.clear()
 
-    #     if command == "help":
-    #         log.write("Available commands: help, status, clear, exit")
+        elif command == "exit":
+            self.exit()
 
-    #     elif command == "status":
-    #         log.write("Application is running.")
-
-    #     elif command == "clear":
-    #         log.clear()
-
-    #     elif command == "exit":
-    #         self.exit()
-
-    #     else:
-    #         log.write(f"[yellow]Unknown command:[/] {command}")
+        else:
+            log.write(f"[yellow]Unknown command:[/] {command}")
 
     # def on_key(self, event: events.Key) -> None:
     #     if self.focused is not self.query_one("#command", Input):
