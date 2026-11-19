@@ -1,3 +1,4 @@
+import pydash as _
 from textual import events
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
@@ -5,6 +6,7 @@ from textual.widget import Widget
 from textual.widgets import Input, RichLog, Static
 
 from src.tui.const import TextFormatting, TuiText, WidgetClass, WidgetID
+from src.tui.history import CmdHistory
 
 
 class CmdLine(Horizontal):
@@ -44,12 +46,35 @@ class Terminal(Vertical):
         }}
     '''
 
+    def __init__(self) -> None:
+        super().__init__(id=WidgetID.TERMINAL)
+        self.history = CmdHistory()
+
     def compose(self) -> ComposeResult:
         yield RichLog(wrap=True, markup=True, id=WidgetID.CMD_LOG)
         yield CmdLine()
 
+    def _on_mount(self, event: events.Mount) -> None:
+        self.cmd_input = self.query_one(f'#{WidgetID.CMD_INPUT}', Input)
+        return super()._on_mount(event)
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        command = event.value.strip()
+        self.history.add(command)
+
     def _on_click(self, event: events.Click) -> None:
-        self.query_one(f'#{WidgetID.CMD_INPUT}').focus()
+        self.cmd_input.focus()
+
+    def on_key(self, event: events.Key) -> None:
+        if event.key in {'up', 'down'}:
+            self.history.scroll(event)
+            self._restore_command()
+            event.prevent_default()
+            event.stop()
+
+    def _restore_command(self) -> None:
+        self.cmd_input.value = self.history.get_curr()
+        self.cmd_input.cursor_position = len(self.cmd_input.value)
 
 
 class ContextPane(Vertical):

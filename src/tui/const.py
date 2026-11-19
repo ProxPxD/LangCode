@@ -32,6 +32,7 @@ class WidgetID(IKebabCaseStrEnum):
     CONSOLE_PANE = auto()
     CONTEXT_PANE = auto()
     ## Console Pane
+    TERMINAL = auto()
     CMD_LOG = auto()
     CMD_PROMPT = auto()
     CMD_INPUT = auto()

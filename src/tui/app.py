@@ -8,7 +8,7 @@ from textual_widgets import VerticalSplitter
 
 from src.tui.const import TuiText, WidgetClass, WidgetID
 from src.tui.display_panel import DisplayPanel
-from src.tui.main_column import MainColumn
+from src.tui.main_column import MainColumn, Terminal
 from src.tui.view_panel import ViewPanel
 
 from .tmp_css import CSS
@@ -68,8 +68,6 @@ class TerminalTUI(App):
 
     def __init__(self) -> None:
         super().__init__()
-        self.history: list[str] = []
-        self.history_index = 0
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="main"):
@@ -80,6 +78,7 @@ class TerminalTUI(App):
             yield DisplayPanel()
 
     def on_mount(self) -> None:
+        self.terminal: Terminal = self.query_one(f'#{WidgetID.TERMINAL}', Terminal)
         self.query_one(f'#{WidgetID.CMD_INPUT}', Input).focus()
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
@@ -88,9 +87,6 @@ class TerminalTUI(App):
 
         if not command:
             return
-
-        self.history.append(command)
-        self.history_index = len(self.history)
 
         log = self.query_one(f'#{WidgetID.CMD_LOG}', RichLog)
         log.write(f'{TuiText.PROMPT} {command}')
@@ -110,30 +106,3 @@ class TerminalTUI(App):
         else:
             log.write(f"[yellow]Unknown command:[/] {command}")
 
-    # def on_key(self, event: events.Key) -> None:
-    #     if self.focused is not self.query_one("#command", Input):
-    #         return
-
-    #     if event.key == "up":
-    #         if self.history and self.history_index > 0:
-    #             self.history_index -= 1
-    #             self._restore_command()
-    #             event.prevent_default()
-    #             event.stop()
-
-    #     elif event.key == "down":
-    #         if self.history_index < len(self.history):
-    #             self.history_index += 1
-    #             self._restore_command()
-    #             event.prevent_default()
-    #             event.stop()
-
-    # def _restore_command(self) -> None:
-    #     command_input = self.query_one("#command", Input)
-
-    #     if self.history_index < len(self.history):
-    #         command_input.value = self.history[self.history_index]
-    #     else:
-    #         command_input.value = ""
-
-    #     command_input.cursor_position = len(command_input.value)
