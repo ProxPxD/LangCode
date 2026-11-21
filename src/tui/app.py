@@ -1,17 +1,13 @@
 
-from textual import events
 from textual.app import App, ComposeResult
-from textual.containers import Horizontal, Vertical
-from textual.widget import Widget
-from textual.widgets import Input, RichLog, Static
-from textual_widgets import VerticalSplitter
+from textual.containers import Horizontal
+from textual.widgets import Input, RichLog
+from textual_widgets import HorizontalSplitter, VerticalSplitter
 
 from src.tui.const import TuiText, WidgetClass, WidgetID
 from src.tui.display_panel import DisplayPanel
 from src.tui.main_column import MainColumn, Terminal
 from src.tui.view_panel import ViewPanel
-
-from .tmp_css import CSS
 
 
 class TerminalTUI(App):
@@ -21,8 +17,13 @@ class TerminalTUI(App):
         width: 1;
     }}
 
-    {VerticalSplitter.__name__}:hover,
-    {VerticalSplitter.__name__}.dragging {{
+    {HorizontalSplitter.__name__} {{
+        height: 1;
+        width: 100%;
+    }}
+
+    .{WidgetClass.SPLITTER}:hover,
+    .{WidgetClass.SPLITTER}.dragging {{
         background: darkgreen;
     }}
 
@@ -72,9 +73,9 @@ class TerminalTUI(App):
     def compose(self) -> ComposeResult:
         with Horizontal(id="main"):
             yield ViewPanel()
-            yield VerticalSplitter()
+            yield VerticalSplitter(classes=WidgetClass.SPLITTER)
             yield MainColumn()
-            yield VerticalSplitter()
+            yield VerticalSplitter(classes=WidgetClass.SPLITTER)
             yield DisplayPanel()
 
     def on_mount(self) -> None:

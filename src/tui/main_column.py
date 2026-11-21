@@ -1,9 +1,8 @@
-import pydash as _
 from textual import events
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
-from textual.widget import Widget
 from textual.widgets import Input, RichLog, Static
+from textual_widgets import HorizontalSplitter
 
 from src.tui.const import TextFormatting, TuiText, WidgetClass, WidgetID
 from src.tui.history import CmdHistory
@@ -113,4 +112,5 @@ class MainColumn(Vertical):
     def compose(self) -> ComposeResult:
         yield Static(f'[{TextFormatting.TITLE}]{TuiText.MAIN}[/]', classes=WidgetClass.TITLE)
         yield Terminal()
+        yield HorizontalSplitter(classes=WidgetClass.SPLITTER)
         yield ContextPane()

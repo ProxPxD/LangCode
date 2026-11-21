@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 from enum import StrEnum, auto
+from typing import Self
 
 
 class IKebabCaseStrEnum(StrEnum):
@@ -8,7 +8,7 @@ class IKebabCaseStrEnum(StrEnum):
         return name.lower().replace('_', '-')
 
 class IAppendClass(StrEnum):
-    def __new__(cls, value: str):
+    def __new__(cls, value: str) -> Self:
         value = f'{value}-{cls.__name__.removesuffix("s")}'
         obj = str.__new__(cls, value)
         obj._value_ = value
@@ -21,6 +21,7 @@ class WidgetClass(IKebabCaseStrEnum):
     SHOW_CONTENT = auto()
     TITLE = auto()
     CONTENT = auto()
+    SPLITTER = auto()
 
 
 class WidgetID(IKebabCaseStrEnum):
