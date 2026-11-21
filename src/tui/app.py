@@ -10,7 +10,7 @@ from .main_column import MainColumn, Terminal
 from .view_panel import ViewPanel
 
 
-class TerminalTUI(App):
+class Tui(App):
     CSS = f'''
     {VerticalSplitter.__name__} {{
         height: 100%;

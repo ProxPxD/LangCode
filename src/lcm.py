@@ -10,7 +10,7 @@ from loading import LoaderKind, LoaderProvider
 # from logic.sci import SCI
 # from loop_mging.input_mgr import InputMgr
 lazy from loading.abstract_loaders import Loader
-from src.tui.app import TerminalTUI
+from src.tui import Tui
 
 
 class LCM:
@@ -19,7 +19,7 @@ class LCM:
     """
     def __init__(self, *, log = None) -> None:
         self.loader: Loader = LoaderProvider.get_for(LoaderKind.ALL)
-        self.tui = TerminalTUI()
+        self.tui_app = Tui()
         ...
         # self.outer_cli = OuterCLI()
         # self.input_mgr = InputMgr()
