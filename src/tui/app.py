@@ -4,10 +4,10 @@ from textual.containers import Horizontal
 from textual.widgets import Input, RichLog
 from textual_widgets import HorizontalSplitter, VerticalSplitter
 
-from src.tui.const import TuiText, WidgetClass, WidgetID
-from src.tui.display_panel import DisplayPanel
-from src.tui.main_column import MainColumn, Terminal
-from src.tui.view_panel import ViewPanel
+from .const import TuiText, WidgetClass, WidgetID
+from .display_panel import DisplayPanel
+from .main_column import MainColumn, Terminal
+from .view_panel import ViewPanel
 
 
 class TerminalTUI(App):

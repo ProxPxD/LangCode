@@ -1,9 +1,8 @@
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from textual.widget import Widget
 from textual.widgets import RichLog, Static
 
-from src.tui.const import TextFormatting, WidgetClass, WidgetID
+from .const import TextFormatting, WidgetClass, WidgetID
 
 
 class DisplayPanel(Vertical):

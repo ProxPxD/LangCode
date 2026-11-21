@@ -4,8 +4,8 @@ from textual.containers import Horizontal, Vertical
 from textual.widgets import Input, RichLog, Static
 from textual_widgets import HorizontalSplitter
 
-from src.tui.const import TextFormatting, TuiText, WidgetClass, WidgetID
-from src.tui.history import CmdHistory
+from .const import TextFormatting, TuiText, WidgetClass, WidgetID
+from .history import CmdHistory
 
 
 class CmdLine(Horizontal):
