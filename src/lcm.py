@@ -19,7 +19,7 @@ class LCM:
     """
     def __init__(self, *, log = None) -> None:
         self.loader: Loader = LoaderProvider.get_for(LoaderKind.ALL)
-        self.tui_app = Tui()
+        self.tui = Tui()
         ...
         # self.outer_cli = OuterCLI()
         # self.input_mgr = InputMgr()
