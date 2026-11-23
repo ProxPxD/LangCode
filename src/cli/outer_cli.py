@@ -1,7 +1,7 @@
 from argparse import ArgumentParser, _SubParsersAction
 from enum import StrEnum, auto
 
-from src.cli.cli import CLI
+from src.cli.cli import InputProcessor
 
 
 # c (start/run/tui)?
@@ -16,7 +16,7 @@ from src.cli.cli import CLI
 # {working}
 ## LOAD-INIT
 ## BIND
-## EXPORT
+## EXPORT;
 ## ...
 
 # langcode get conjugation
@@ -29,7 +29,7 @@ class Modes(StrEnum):
     LOAD = auto()
 
 
-class OuterCLI(CLI):
+class OuterCLI(InputProcessor):
     @property
     def parser(self) -> ArgumentParser:
         parser = ArgumentParser(

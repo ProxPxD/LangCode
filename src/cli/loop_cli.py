@@ -1,10 +1,10 @@
 from argparse import ArgumentParser, SUPPRESS, _SubParsersAction
 
-from src.cli.cli import CLI
+from src.cli.cli import InputProcessor
 from src.cli.keywords import run
 
 
-class LoopCLI(CLI):
+class LoopCLI(InputProcessor):
     @property
     def parser(self) -> ArgumentParser:
         parser = ArgumentParser()
