@@ -25,6 +25,7 @@ invalid-argument = "warn"
 bad-argument-type = "warn"
 
 [tool.basedpyright]
+baselineFile = ""
 deprecateTypingAliases = false
 reportMissingTypeStubs = false
 reportUnknownVariableType = false
