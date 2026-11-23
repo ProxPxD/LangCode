@@ -1,14 +1,32 @@
 from argparse import ArgumentParser, _SubParsersAction
-from dataclasses import dataclass
+from enum import StrEnum, auto
 
 from src.cli.cli import CLI
 
 
-@dataclass(frozen=True)
-class Modes:
-    start: str = 'start'
-    query: str = 'query'
-    load: str = 'load'
+# c (start/run/tui)?
+
+# c (query) <query>
+
+# c <CMDS>:
+# {query}
+## ASK:       get conjugation hablar
+## ADD/MOD:   set '1st-Person-Sg' in 'hablar' to 'hablo'
+## ...
+# {working}
+## LOAD-INIT
+## BIND
+## EXPORT
+## ...
+
+# langcode get conjugation
+
+
+
+class Modes(StrEnum):
+    START = auto()
+    QUERY = auto()
+    LOAD = auto()
 
 
 class OuterCLI(CLI):
@@ -17,7 +35,7 @@ class OuterCLI(CLI):
         parser = ArgumentParser(
             prog='LangCode',
             description='Program for Coding Languages in',
-            epilog=''
+            epilog='',
         )
 
         sub = parser.add_subparsers(dest='cmd', required=True)
@@ -27,12 +45,12 @@ class OuterCLI(CLI):
         return parser
 
     def _add_loop_subparser(self, sub: _SubParsersAction) -> _SubParsersAction:
-        p_run = sub.add_parser(Modes.start, help='Enter main loop')
+        p_run = sub.add_parser(Modes.START, help='Enter main loop')
         return sub
 
     def _add_query_subparser(self, sub: _SubParsersAction) -> _SubParsersAction:
-        p_rdf = sub.add_parser(Modes.query, help='Run an RDF query')
-        p_rdf.add_argument(Modes.query, type=str, help='RDF query to execute')
+        p_rdf = sub.add_parser(Modes.QUERY, help='Run an RDF query')
+        p_rdf.add_argument(Modes.QUERY, type=str, help='RDF query to execute')
         return sub
 
     def _add_load_subcmd(self, sub: _SubParsersAction) -> _SubParsersAction:

@@ -1,17 +1,15 @@
 import sys
 from pathlib import Path
 
-# sys.path.insert(0, str(Path(__file__).parlsent.parent))
-
-# from src.logic.consts.db import rdf_log, URI_PREFIX
 from src.lcm import LCM
-# from uuid import uuid1
+from src.log_conf import configure_logging
 
+configure_logging(Path.home() / '.local/state/langcode/logs')
 
 lcm = LCM()
 lcm.run()
 
-exit(0)
+sys.exit(0)
 
 uid = uuid1
 query = f'''
