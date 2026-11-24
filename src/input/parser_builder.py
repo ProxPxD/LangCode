@@ -11,7 +11,7 @@ class ParserBuilder:
     _is_tui: bool | None = None
 
     @classmethod
-    def build(cls, spec: specs.ParserSpec, *, is_tui: bool) -> ArgumentParser:
+    def build(cls, spec: specs.ParserSpec = specs.CLI, *, is_tui: bool) -> ArgumentParser:
         cls._is_tui = is_tui
         parser = ArgumentParser(
             prog='LangCode',

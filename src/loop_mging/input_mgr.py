@@ -1,7 +1,7 @@
 from typing import Any
 
 from src.loop_mging.input_processing import InputProcessor
-from src.cli.loop_cli import LoopCLI
+from src.input.loop_cli import LoopCLI
 
 
 class InputMgr:

@@ -1,10 +1,11 @@
 import logging
 lazy from argparse import Namespace
 
-from src.cli import InputProcessor
-from src.cli.const import Cmd
+from src.input import InputProcessor
+from src.input.const import Cmd
 lazy from src.loading import Loader, LoaderKind, LoaderProvider
 lazy from src.tui import Tui
+lazy from src.executing import Executor
 
 # from cli.outer_cli import Modes, OuterCLI
 # from context.context import Context
@@ -20,6 +21,7 @@ logger = logging.getLogger(__name__)
 class AppManager:
     def __init__(self, *, log = None) -> None:
         self.input_processor = InputProcessor(is_tui=False)
+        self._executor = Executor()
         self._tui: Tui | None = None
         self._loader: Loader | None = None
         ...
