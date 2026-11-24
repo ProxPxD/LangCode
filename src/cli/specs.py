@@ -1,3 +1,6 @@
+from ast import Load
+
+from .const import Cmd
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
@@ -37,24 +40,37 @@ CLI = ParserSpec(
     subs_kwargs=SubsKwargsSpec(dest='cmd', required=False),
     subs=(
         ParserSpec(
-            name='tui',
+            name=Cmd.TUI,
             disable_for_tui=True,
         ),
         ParserSpec(
-            name='load',
+            name=Cmd.LOAD,
             args=(
-                ArgSpec(
-                    'file',
-                    type=str,
-                ),
+                ArgSpec('file', type=str),
             ),
         ),
     ),
 )
+
+# c (start/run/tui)?
+
+# c (query) <query>
+
+# c <CMDS>:
+# {query}
+## ASK:       get conjugation hablar
+## ADD/MOD:   set '1st-Person-Sg' in 'hablar' to 'hablo'
+## ...
+# {working}
+## LOAD-INIT
+## BIND
+## EXPORT;
+## ...
 
 __all__ = [  # pyright: ignore[reportUnsupportedDunderAll]  # noqa: PLE0604
     'CLI',
     ArgSpec.__name__,
     SubsKwargsSpec.__name__,
     ParserSpec.__name__,
+    UNSET.__name__
 ]

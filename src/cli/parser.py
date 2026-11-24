@@ -44,14 +44,14 @@ class ParserBuilder:
             if cls._is_tui and sub_spec.disable_for_tui:
                 continue
             cls._norm_kwargs(asdict(sub_spec), drop={'args', 'subs_kwargs', 'subs', 'disable_for_tui'})
-            subs.add_parser(sub_spec.name)
-            cls._build_parser(subs, sub_spec)
+            subparser = subs.add_parser(sub_spec.name)
+            cls._build_parser(subparser, sub_spec)
 
     @classmethod
     def _norm_kwargs(cls, kwargs: dict, *, drop: str | Collection[str] | None = None) -> dict:
         drop = _.to_list(drop or [], split_strings=False)
-        rest = {key: val for key, val in kwargs.items() if key not in {'others', *drop}}
-        return {**rest, **kwargs['others']}
+        rest = {key: val for key, val in kwargs.items() if key not in {'others', *drop} and val is not specs.UNSET}
+        return {**rest, **kwargs.get('others', {})}
 
     # ----
 

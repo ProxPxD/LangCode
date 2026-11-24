@@ -1,18 +1,6 @@
 from enum import StrEnum, auto
-from typing import Self
 
-
-class IKebabCaseStrEnum(StrEnum):
-    @staticmethod
-    def _generate_next_value_(name, start, count, last_values) -> str:
-        return name.lower().replace('_', '-')
-
-class IAppendClass(StrEnum):
-    def __new__(cls, value: str) -> Self:
-        value = f'{value}-{cls.__name__.removesuffix("s")}'
-        obj = str.__new__(cls, value)
-        obj._value_ = value
-        return obj
+from src.utils.enum import IKebabCaseStrEnum
 
 
 class WidgetClass(IKebabCaseStrEnum):

@@ -1,2 +1,0 @@
-UNDER = 'under'
-OVER = 'over'
