@@ -11,7 +11,7 @@ from src.logic.blocks.node import N
 from src.logic.conf.schema.top import Conf
 from src.logic.consts.db import rdf_dev_log
 from src.logic.consts.keywords import IS, STRUCTANT, SUB, EX
-from src.lcm import LCM
+from src.app_manager import AppManager
 from testing.core import TCG
 import pydash as _
 
@@ -62,7 +62,7 @@ class SystemConfTCG(TCG):
                 tags={'empty', 'id'},
                 conf=Conf(
                     structants=f'''
-                        {(name := 'empty')}: 
+                        {(name := 'empty')}:
                         '''
                 ),
                 e_triples=(
@@ -77,7 +77,7 @@ class SystemConfTCG(TCG):
                     {(category := 'category')}:
                         {SUB}:
                             - {(choice1 := 'choice1')}
-                            - {(choice2 := 'choice2')} 
+                            - {(choice2 := 'choice2')}
                     ''')
                 ),
                 e_triples=(
@@ -132,7 +132,7 @@ def test(tc: Tc | TC):
     with open(TEST_CONF, 'w') as f:
         yaml.dump(tc.conf.model_dump(), f, default_flow_style=False, allow_unicode=True)
 
-    lcm = LCM(log=rdf_dev_log)
+    lcm = AppManager(log=rdf_dev_log)
     woman = N(name='woman')
     name = N(name='name')
     woman.name = name

@@ -3,14 +3,14 @@ import sys
 from pathlib import Path
 
 from src.log_conf import configure_logging
-lazy from src.lcm import LCM
+lazy from src.app_manager import AppManager
 
 
 def main() -> None:
     configure_logging(Path.home() / '.local/state/langcode/logs')
     logger = logging.getLogger(__name__)
     try:
-        lcm = LCM()
+        lcm = AppManager()
         lcm.run()
     except Exception as e:
         logger.debug(f'Exiting app: {e}')

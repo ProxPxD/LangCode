@@ -7,14 +7,14 @@ from _pytest.outcomes import fail
 
 from src.logic.blocks.node import N
 from src.logic.consts.db import rdf_dev_log
-from src.lcm import LCM
+from src.app_manager import AppManager
 from testing.core import TCG
 
 
 @pytest.fixture(scope='module', autouse=True)
 def module_fixture():
     logs = logging.getLogger('#TODO')
-    lcm = LCM(log=rdf_dev_log)
+    lcm = AppManager(log=rdf_dev_log)
     yield lcm
 
 
