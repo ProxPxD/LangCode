@@ -1,6 +1,5 @@
 import logging
 from argparse import Namespace
-from re import S
 
 from src.cli import InputProcessor
 from src.cli.const import Cmd
