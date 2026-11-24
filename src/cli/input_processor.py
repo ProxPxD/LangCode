@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class InputProcessor:
     def __init__(self, *, is_tui: bool) -> None:
-        self.parser = ParserBuilder.build(is_tui=is_tui)
+        self.parser = ParserBuilder._build_playground(is_tui=is_tui)
 
     @classmethod
     def _norm_args(cls, args: list[str] | str | None) -> list[str]:

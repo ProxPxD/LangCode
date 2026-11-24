@@ -1,7 +1,6 @@
 from argparse import ArgumentParser, _SubParsersAction
 from enum import StrEnum, auto
 
-from src.cli.cli import InputProcessor
 
 
 # c (start/run/tui)?
@@ -29,7 +28,7 @@ class Modes(StrEnum):
     LOAD = auto()
 
 
-class OuterCLI(InputProcessor):
+class OuterCLI:
     @property
     def parser(self) -> ArgumentParser:
         parser = ArgumentParser(
