@@ -10,8 +10,8 @@ def main() -> None:
     configure_logging(Path.home() / '.local/state/langcode/logs')
     logger = logging.getLogger(__name__)
     try:
-        lcm = AppManager()
-        lcm.run()
+        app_manager = AppManager()
+        app_manager.run()
     except Exception as e:
         logger.debug(f'Exiting app: {e}')
         raise
