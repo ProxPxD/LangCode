@@ -6,7 +6,7 @@ from argparse import Namespace
 import pydash as _
 from pydash import chain as c
 
-from .parser import ParserBuilder
+from .parser_builder import ParserBuilder
 from .specs import CLI
 
 logger = logging.getLogger(__name__)

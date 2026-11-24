@@ -1,8 +1,7 @@
-from ast import Load
-
-from .const import Cmd
 from dataclasses import dataclass, field
 from typing import Any, Callable
+
+from .const import Cmd
 
 type Tuple[T] = tuple[T, ...]
 
