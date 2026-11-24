@@ -1,5 +1,5 @@
 import logging
-from argparse import Namespace
+lazy from argparse import Namespace
 
 from src.cli import InputProcessor
 from src.cli.const import Cmd

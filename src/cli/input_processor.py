@@ -1,7 +1,7 @@
 import logging
 import shlex
 import sys
-from argparse import Namespace
+lazy from argparse import Namespace
 
 import pydash as _
 from pydash import chain as c
