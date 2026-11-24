@@ -46,5 +46,6 @@ class AppManager:
         parsed: Namespace = self.input_processor.process()  # TODO: add a proper application context
         match parsed.cmd:
             case Cmd.TUI:
+                logger.debug('Starting TUI')
                 self.tui.run()
             case _: raise ValueError(f'Unrecognized command: {parsed.cmd}')

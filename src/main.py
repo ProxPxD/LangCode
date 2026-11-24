@@ -1,13 +1,12 @@
 import logging
 import sys
-from pathlib import Path
 
 from src.log_conf import configure_logging
 lazy from src.app_manager import AppManager
 
 
 def main() -> None:
-    configure_logging(Path.home() / '.local/state/langcode/logs')
+    configure_logging()
     logger = logging.getLogger(__name__)
     try:
         app_manager = AppManager()

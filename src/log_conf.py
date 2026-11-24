@@ -1,14 +1,16 @@
 import logging
+from logging import FileHandler
 from pathlib import Path
 
+FORMAT = '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+LOG_DIR = Path.home() / '.local/state/langcode/logs'
 
-def configure_logging(log_dir: Path) -> None:
-    log_dir.mkdir(parents=True, exist_ok=True)
+def configure_logging() -> None:
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
         level=logging.DEBUG,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        format=FORMAT,
         handlers=[
-            logging.StreamHandler(),
-            logging.FileHandler(log_dir / 'app.log', encoding='utf-8'),
+            FileHandler(LOG_DIR / 'app.log', encoding='utf-8'),
         ],
     )
