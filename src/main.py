@@ -1,13 +1,25 @@
+import logging
 import sys
 from pathlib import Path
 
-from src.lcm import LCM
 from src.log_conf import configure_logging
+lazy from src.lcm import LCM
 
-configure_logging(Path.home() / '.local/state/langcode/logs')
 
-lcm = LCM()
-lcm.run()
+def main() -> None:
+    configure_logging(Path.home() / '.local/state/langcode/logs')
+    logger = logging.getLogger(__name__)
+    try:
+        lcm = LCM()
+        lcm.run()
+    except Exception as e:
+        logger.debug(f'Exiting app: {e}')
+        raise
+
+
+if __name__ == '__main__':
+    main()
+
 
 sys.exit(0)
 

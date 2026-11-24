@@ -1,3 +1,3 @@
-from .abstract_loaders import Loader as Loader
-from .concrete_loaders import LoaderKind as LoaderKind
-from .concrete_loaders import LoaderProvider as LoaderProvider
+lazy from .concrete_loaders import LoaderKind as LoaderKind
+lazy from .concrete_loaders import LoaderProvider as LoaderProvider
+lazy from .loader_protocol import Loader as Loader

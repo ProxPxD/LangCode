@@ -4,7 +4,7 @@ from re import S
 
 from src.cli import InputProcessor
 from src.cli.const import Cmd
-from src.loading import LoaderKind, LoaderProvider
+lazy from src.loading import Loader, LoaderKind, LoaderProvider
 
 # from cli.outer_cli import Modes, OuterCLI
 # from context.context import Context
@@ -12,9 +12,7 @@ from src.loading import LoaderKind, LoaderProvider
 # from logic.db import GDM, LoginData
 # from logic.sci import SCI
 # from loop_mging.input_mgr import InputMgr
-lazy from src.loading.abstract_loaders import Loader
 lazy from src.tui import Tui
-
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +22,9 @@ class LCM:
     Lang Code Manager
     """
     def __init__(self, *, log = None) -> None:
-        self.loader: Loader = LoaderProvider.get_for(LoaderKind.ALL)
         self.input_processor = InputProcessor(is_tui=False)
-        self.tui: Tui | None = None
+        self._tui: Tui | None = None
+        self._loader: Loader | None = None
         ...
         # self.outer_cli = OuterCLI()
         # self.input_mgr = InputMgr()
@@ -35,10 +33,21 @@ class LCM:
         # self.sci: SCI = SCI()
         # self.context = Context()
 
+    @property
+    def tui(self) -> Tui:
+        if not self._tui:
+            self._tui = Tui()
+        return self._tui
+
+    @property
+    def loader(self) -> Loader:
+        if self._loader is None:
+            self._loader = LoaderProvider.get_for(LoaderKind.ALL)
+        return self._loader  # pyright: ignore[reportReturnType]  # TODO: remove when support starts or LS is changed
+
     def run(self) -> None:
         parsed: Namespace = self.input_processor.process()  # TODO: add a proper application context
         match parsed.cmd:
             case Cmd.TUI:
-                self.tui = Tui()
                 self.tui.run()
             case _: raise ValueError(f'Unrecognized command: {parsed.cmd}')

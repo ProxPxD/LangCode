@@ -4,7 +4,8 @@ lazy import json
 lazy import pydash as _
 lazy import yaml
 
-from .abstract_loaders import DirLoader, FileLoader, Loader
+from .abstract_loaders import DirLoader, FileLoader
+lazy from .loader_protocol import Loader
 
 
 class LoaderKind(StrEnum):

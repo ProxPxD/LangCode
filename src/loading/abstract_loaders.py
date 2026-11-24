@@ -1,17 +1,10 @@
-from io import Reader
 lazy from collections.abc import Callable, Sequence
 lazy from pathlib import Path
-lazy from typing import Protocol
 
 import pydash as _
 
 lazy from datatypes import DataType
-
-type PathLike = str | Path
-type LoadFunc = Callable[[Reader[str]], DataType]
-
-class Loader(Protocol):
-    def load(self, file: PathLike) -> DataType: ...
+lazy from src.loading.loader_protocol import LoadFunc, PathLike
 
 
 class FileLoader:
