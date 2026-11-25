@@ -1,5 +1,5 @@
 import logging
-from logging import FileHandler
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 FORMAT = '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
@@ -11,6 +11,11 @@ def configure_logging() -> None:
         level=logging.DEBUG,
         format=FORMAT,
         handlers=[
-            FileHandler(LOG_DIR / 'app.log', encoding='utf-8'),
+            RotatingFileHandler(
+                LOG_DIR / 'app.log',
+                maxBytes=4 * 1024**2,
+                backupCount=1,
+                encoding='utf-8',
+            ),
         ],
     )
