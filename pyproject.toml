@@ -42,7 +42,7 @@ reportMissingTypeArgument = 'none'
 reportUnknownParameterType = false
 reportArgumentType = 'none'
 typeCheckingMode = 'basic'
-reportAssignmentType = 'none'
+reportAssignmentType = 'warning'
 
 [tool.pytest.ini_options]
 testpaths = ['testing']
