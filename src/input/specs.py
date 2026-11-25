@@ -27,7 +27,7 @@ class ParserSpec:
     kwargs: frozendict[str, Any] = field(default_factory=frozendict)
 
     args: Tuple[ArgSpec] = ()
-    subs_kwargs: SubsKwargsSpec = None
+    subs_kwargs: SubsKwargsSpec | None = None
     subs: Tuple[ParserSpec] = ()
 
     disable_for_tui: bool = False

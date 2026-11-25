@@ -1,11 +1,11 @@
 import logging
-lazy from argparse import Namespace
 
 from src.input import InputProcessor
 from src.input.const import Cmd
+lazy from src.executing import Executor
+lazy from src.input.input_data import InputData
 lazy from src.loading import Loader, LoaderKind, LoaderProvider
 lazy from src.tui import Tui
-lazy from src.executing import Executor
 
 # from cli.outer_cli import Modes, OuterCLI
 # from context.context import Context
@@ -45,7 +45,7 @@ class AppManager:
         return self._loader  # pyright: ignore[reportReturnType]  # TODO: remove when support starts or LS is changed
 
     def run(self) -> None:
-        parsed: Namespace = self.input_processor.process()  # TODO: add a proper application context
+        parsed: InputData = self.input_processor.process()  # TODO: add a proper application context
         match parsed.cmd:
             case Cmd.TUI:
                 logger.debug('Starting TUI')
