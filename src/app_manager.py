@@ -35,7 +35,12 @@ class AppManager:
     @property
     def tui(self) -> Tui:
         if not self._tui:
-            self._tui = Tui()
+            self._tui = Tui(
+                input_handler=GeneralExecutor(
+                    input_processor=InputProcessor(is_tui=True),
+                    cmd_executor=CmdExecutor(),
+                ),
+            )
         return self._tui
 
     @property
