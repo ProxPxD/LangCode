@@ -1,17 +1,20 @@
 
+import logging
+
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal
-from textual.widgets import Input, RichLog
-from textual_widgets import HorizontalSplitter, VerticalSplitter
+from textual.widgets import Input
+from textual_widgets import VerticalSplitter
 
 from src.tui import css
 from src.tui.executor_protocol import InputHandler
 
-from .const import TuiText, WidgetClass, WidgetID
+from .const import WidgetClass, WidgetID
 from .display_panel import DisplayPanel
 from .main_column import MainColumn, Terminal
 from .view_panel import ViewPanel
 
+logger = logging.getLogger(__name__)
 
 class Tui(App):
     CSS = css.TUI_CSS
@@ -43,12 +46,22 @@ class Tui(App):
         if not command:
             return
 
-        output = self._input_handler.handle(command)
-        self.terminal.print(output)
+        try:
+            logger.debug(f'input submitted: {command}')
+            output = self._input_handler.handle(command)
+            logger.debug(f'output: {output}')
+        except Exception:
+            output = None
 
+
+
+        if output:
+            self.terminal.print(output)
+
+        # TODO: remove
+        logger.debug(f'Handling {command}')
         if command == "help":
             self.terminal.print("Available commands: help, status, clear, exit")
-
         elif command == "status":
             self.terminal.print("Application is running.")
         elif command == "clear":
@@ -57,4 +70,5 @@ class Tui(App):
             self.exit()
         else:
             self.terminal.print(f"[yellow]Unknown command:[/] {command}")
+        logger.debug(f'Finished handling: {command}')
 

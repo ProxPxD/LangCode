@@ -33,6 +33,15 @@ class AppManager:
         self._loader: Loader | None = None
 
     @property
+    def executor(self) -> GeneralExecutor:
+        if self._executor is None:
+            self._executor = GeneralExecutor(
+                input_processor=self.input_processor,
+                cmd_executor=CmdExecutor(),
+            )
+        return self._executor
+
+    @property
     def tui(self) -> Tui:
         if not self._tui:
             self._tui = Tui(
@@ -48,15 +57,6 @@ class AppManager:
         if self._loader is None:
             self._loader = LoaderProvider.get_for(LoaderKind.ALL)
         return self._loader  # pyright: ignore[reportReturnType]  # TODO: remove when support starts or LS is changed
-
-    @property
-    def executor(self) -> GeneralExecutor:
-        if self._executor is None:
-            self._executor = GeneralExecutor(
-                input_processor=self.input_processor,
-                cmd_executor=CmdExecutor(),
-            )
-        return self._executor
 
     def run(self) -> None:
         input_data: InputData = self.input_processor.process()  # TODO: add a proper application context

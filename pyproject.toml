@@ -41,7 +41,7 @@ reportRedeclaration = false
 reportMissingTypeArgument = 'none'
 reportUnknownParameterType = false
 reportArgumentType = 'none'
-typeCheckingMode = 'basic'
+typeCheckingMode = 'strict'
 reportAssignmentType = 'warning'
 
 [tool.pytest.ini_options]

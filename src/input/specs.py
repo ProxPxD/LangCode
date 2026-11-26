@@ -1,3 +1,4 @@
+from argparse import BooleanOptionalAction
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
@@ -12,6 +13,7 @@ UNSET = sentinel('UNSET')
 class ArgSpec:
     flags: Tuple[str] | str
     type:  Callable[[str], Any] | UNSET = UNSET
+    action: str | UNSET = UNSET
     others: frozendict[str, Any] = field(default_factory=frozendict)
 
 @dataclass(frozen=True)
@@ -19,6 +21,7 @@ class SubsKwargsSpec:
     dest: str
     required: bool | UNSET = UNSET
     others: frozendict[str, Any] = field(default_factory=frozendict)
+    add_help: bool = True
 
 @dataclass(frozen=True)
 class ParserSpec:
@@ -35,6 +38,7 @@ class ParserSpec:
 
 CLI = ParserSpec(
     args=(
+        ArgSpec(['--help', '-h'], action='store_true'),
     ),
     subs_kwargs=SubsKwargsSpec(dest='cmd', required=False),
     subs=(
