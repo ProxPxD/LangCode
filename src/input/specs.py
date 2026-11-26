@@ -21,24 +21,24 @@ class SubsKwargsSpec:
     dest: str
     required: bool | UNSET = UNSET
     others: frozendict[str, Any] = field(default_factory=frozendict)
-    add_help: bool = True
 
 @dataclass(frozen=True)
 class ParserSpec:
     name: str | None = None
     help: str | UNSET = UNSET
-    kwargs: frozendict[str, Any] = field(default_factory=frozendict)
+    others: frozendict[str, Any] = field(default_factory=frozendict)
 
     args: Tuple[ArgSpec] = ()
     subs_kwargs: SubsKwargsSpec | None = None
     subs: Tuple[ParserSpec] = ()
 
     disable_for_tui: bool = False
+    add_help: bool = True
 
 
 CLI = ParserSpec(
     args=(
-        ArgSpec(['--help', '-h'], action='store_true'),
+        # ArgSpec(['--help', '-h'], action='store_true'),
     ),
     subs_kwargs=SubsKwargsSpec(dest='cmd', required=False),
     subs=(

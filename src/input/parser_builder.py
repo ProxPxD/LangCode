@@ -1,5 +1,4 @@
 from argparse import ArgumentParser
-import argparse
 from collections.abc import Collection
 from dataclasses import asdict, dataclass, field
 
@@ -25,6 +24,7 @@ class ParserBuilder:
             description='Program for Coding Languages in',
             epilog='',
             exit_on_error=False,
+            add_help=False,
         )
         parser_tree = cls._build_parser_tree(parser, spec)
         cls._is_tui = None
@@ -34,6 +34,8 @@ class ParserBuilder:
     def _build_parser_tree(cls, parser: ArgumentParser, spec: specs.ParserSpec) -> ParserTree:
         for arg in spec.args:
             cls._add_argument(parser, arg)
+        if spec.add_help:
+            cls._add_argument(parser, specs.ArgSpec(('--help', '-h'), action='store_true'))
         return ParserTree(
             parser=parser,
             subparsers=cls._build_subparsers_trees(parser, spec),
@@ -56,8 +58,9 @@ class ParserBuilder:
         for sub_spec in spec.subs:
             if cls._is_tui and sub_spec.disable_for_tui:
                 continue
-            subparser_kwargs = cls._norm_kwargs(asdict(sub_spec), drop={'args', 'subs_kwargs', 'subs', 'disable_for_tui'})
-            subparser: ArgumentParser = subs.add_parser(**subparser_kwargs)
+            subparser_kwargs = cls._norm_kwargs(asdict(sub_spec), drop={'args', 'subs_kwargs', 'subs', 'disable_for_tui', 'add_help'})
+            subparser: ArgumentParser = subs.add_parser(add_help=False, **subparser_kwargs)
+
             subparsers[sub_spec.name] = cls._build_parser_tree(subparser, sub_spec)
         return frozendict(**subparsers)
 
