@@ -4,6 +4,9 @@ from textual.containers import Horizontal
 from textual.widgets import Input, RichLog
 from textual_widgets import HorizontalSplitter, VerticalSplitter
 
+from src.tui import css
+from src.tui.executor_protocol import InputHandler
+
 from .const import TuiText, WidgetClass, WidgetID
 from .display_panel import DisplayPanel
 from .main_column import MainColumn, Terminal
@@ -11,64 +14,15 @@ from .view_panel import ViewPanel
 
 
 class Tui(App):
-    CSS = f'''
-    {VerticalSplitter.__name__} {{
-        height: 100%;
-        width: 1;
-    }}
+    CSS = css.TUI_CSS
 
-    {HorizontalSplitter.__name__} {{
-        height: 1;
-        width: 100%;
-    }}
-
-    .{WidgetClass.SPLITTER}:hover,
-    .{WidgetClass.SPLITTER}.dragging {{
-        background: darkgreen;
-    }}
-
-    .{WidgetClass.TITLE} {{
-        height: 1;
-    }}
-
-    .{WidgetClass.COLUMN} {{
-        height: 1fr;
-    }}
-
-    #{WidgetID.MAIN_COLUMN} {{
-        width: 2fr;
-    }}
-
-    .{WidgetClass.SHOW_COLUMN} {{
-        width: 1fr;
-    }}
-
-    {RichLog.__name__}:focus, {Input.__name__}:focus {{
-        background-tint: transparent;
-    }}
-
-    .{WidgetClass.SHOW_CONTENT} {{
-        background: transparent;
-    }}
-
-    {RichLog.__name__} {{
-        scrollbar-size-vertical: 1;
-        scrollbar-size-horizontal: 0;
-
-        scrollbar-color: $text-muted 25%;
-        scrollbar-color-hover: $text-muted 60%;
-
-        scrollbar-background: transparent;
-        scrollbar-background-hover: transparent;
-    }}
-    '''
-
-    BINDINGS = (
+    BINDINGS = [  # noqa: RUF012
         ("ctrl+c", "quit", "Quit"),
-    )
+    ]
 
-    def __init__(self) -> None:
+    def __init__(self, input_handler: InputHandler) -> None:
         super().__init__()
+        self._input_handler = input_handler
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="main"):
@@ -89,21 +43,18 @@ class Tui(App):
         if not command:
             return
 
-        log = self.query_one(f'#{WidgetID.CMD_LOG}', RichLog)
-        log.write(f'{TuiText.PROMPT} {command}')
+        output = self._input_handler.handle(command)
+        self.terminal.print(output)
 
         if command == "help":
-            log.write("Available commands: help, status, clear, exit")
+            self.terminal.print("Available commands: help, status, clear, exit")
 
         elif command == "status":
-            log.write("Application is running.")
-
+            self.terminal.print("Application is running.")
         elif command == "clear":
-            log.clear()
-
+            self.terminal.clear()
         elif command == "exit":
             self.exit()
-
         else:
-            log.write(f"[yellow]Unknown command:[/] {command}")
+            self.terminal.print(f"[yellow]Unknown command:[/] {command}")
 

@@ -32,6 +32,10 @@ class CmdHistory:
             return True
         return False
 
+    def clear(self) -> None:
+        self.entries = []
+        self.index = 0
+
     def _get_step_for_key(self, event: events.Key) -> int:
         match event.key:
             case 'up': return -1
