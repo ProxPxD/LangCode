@@ -2,10 +2,14 @@ import argparse
 import logging
 import shlex
 import sys
-lazy from argparse import ArgumentParser, Namespace
+from contextlib import contextmanager
+from typing import Any, Generator
+lazy from argparse import ArgumentError, ArgumentParser, Namespace
 
 import pydash as _
 from pydash import chain as c
+
+from src.input import parser_utils
 
 from .parser_builder import ParserBuilder, ParserTree
 lazy from .input_data import InputData
@@ -32,8 +36,10 @@ class InputProcessor:
         return args
 
     def _parse(self, args: list[str]) -> Namespace:
-        parsed = self.parser_tree.parser.parse_args(args)
-        # parsed, remaining = self.parser.parse_known_args(args)
-        # parsed.args += remaining
+        try:
+            parsed = self.parser_tree.parser.parse_args(args)
+        except ArgumentError:
+            with parser_utils.without_required(self.parser_tree.parser) as parser:
+                parsed = parser.parse_args(args)
         return parsed
 

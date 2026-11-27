@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from src.input import InputProcessor
 from src.input.const import Cmd
@@ -64,5 +65,5 @@ class AppManager:
             case Cmd.TUI:
                 logger.debug('Starting TUI')
                 self.tui.run()
-            case Cmd(): self.executor.handle(input_data)
+            case Cmd(): print(self.executor.handle(input_data), file=sys.stdout)
             case _: raise ValueError(f'Unrecognized command: {input_data.cmd}')

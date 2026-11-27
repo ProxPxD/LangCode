@@ -1,4 +1,3 @@
-
 import logging
 
 from textual.app import App, ComposeResult
@@ -46,16 +45,11 @@ class Tui(App):
         if not command:
             return
 
-        try:
-            logger.debug(f'input submitted: {command}')
-            output = self._input_handler.handle(command)
-            logger.debug(f'output: {output}')
-        except Exception:
-            output = None
+        logger.debug(f'Input submitted: {command}')
+        output = self._input_handler.handle(command)
+        logger.debug(f'output: {output}')
 
-
-
-        if output:
+        if bool(output):
             self.terminal.print(output)
 
         # TODO: remove

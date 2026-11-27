@@ -35,7 +35,7 @@ class ParserBuilder:
         for arg in spec.args:
             cls._add_argument(parser, arg)
         if spec.add_help:
-            cls._add_argument(parser, specs.ArgSpec(('--help', '-h'), action='store_true'))
+            cls._add_argument(parser, specs.HELP)
         return ParserTree(
             parser=parser,
             subparsers=cls._build_subparsers_trees(parser, spec),
@@ -53,13 +53,17 @@ class ParserBuilder:
         if not spec.subs:
             return frozendict()
         subparsers_kwargs = cls._norm_kwargs(asdict(spec.subs_kwargs))
-        subs = parser.add_subparsers(**subparsers_kwargs)
+        subs = parser.add_subparsers(**subparsers_kwargs, parser_class=ArgumentParser)
         subparsers: dict[str, ParserTree] = {}
         for sub_spec in spec.subs:
             if cls._is_tui and sub_spec.disable_for_tui:
                 continue
-            subparser_kwargs = cls._norm_kwargs(asdict(sub_spec), drop={'args', 'subs_kwargs', 'subs', 'disable_for_tui', 'add_help'})
-            subparser: ArgumentParser = subs.add_parser(add_help=False, **subparser_kwargs)
+            subparser_kwargs = cls._norm_kwargs(asdict(sub_spec), drop={'args', 'subs_kwargs', 'subs', 'disable_for_tui',
+            'add_help'
+            })
+            subparser: ArgumentParser = subs.add_parser(
+                add_help=False,
+                **subparser_kwargs)
 
             subparsers[sub_spec.name] = cls._build_parser_tree(subparser, sub_spec)
         return frozendict(**subparsers)
@@ -78,7 +82,6 @@ class ParserBuilder:
 
         sub = parser.add_subparsers(dest='cmd', required=False)
         start_parser = sub.add_parser('start', help='Enter main loop')
-        start_parser.add_argument('arg', type=str, action='store')
-
+        start_parser.add_argument('arg', type=str, action='store',)
 
         return parser

@@ -1,3 +1,5 @@
+from venv import logger
+
 lazy from src.input import ArgsLike, InputData, InputProcessor
 
 lazy from .cmd_executor import CmdExecutor

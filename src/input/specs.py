@@ -1,4 +1,3 @@
-from argparse import BooleanOptionalAction
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
@@ -9,10 +8,12 @@ type Tuple[T] = tuple[T, ...]
 UNSET = sentinel('UNSET')
 
 
+
 @dataclass(frozen=True)
 class ArgSpec:
     flags: Tuple[str] | str
     type:  Callable[[str], Any] | UNSET = UNSET
+    dest: str | UNSET = UNSET
     action: str | UNSET = UNSET
     others: frozendict[str, Any] = field(default_factory=frozendict)
 
@@ -26,6 +27,7 @@ class SubsKwargsSpec:
 class ParserSpec:
     name: str | None = None
     help: str | UNSET = UNSET
+    exit_on_error: bool = False
     others: frozendict[str, Any] = field(default_factory=frozendict)
 
     args: Tuple[ArgSpec] = ()
@@ -35,6 +37,7 @@ class ParserSpec:
     disable_for_tui: bool = False
     add_help: bool = True
 
+HELP = ArgSpec(('--help', '-h'), action='store_true', dest='help')
 
 CLI = ParserSpec(
     args=(
