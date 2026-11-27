@@ -66,4 +66,5 @@ class AppManager:
                 logger.debug('Starting TUI')
                 self.tui.run()
             case Cmd(): print(self.executor.handle(input_data), file=sys.stdout)
+            case None if input_data.error: print(input_data.error.message, file=sys.stdout)
             case _: raise ValueError(f'Unrecognized command: {input_data.cmd}')

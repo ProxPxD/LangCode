@@ -8,6 +8,7 @@ lazy from argparse import ArgumentError, ArgumentParser, Namespace
 
 import pydash as _
 from pydash import chain as c
+from textual.app import AppError
 
 from src.input import parser_utils
 
@@ -35,11 +36,14 @@ class InputProcessor:
         args = _.flat_map(args, c().split('\xa0'))
         return args
 
-    def _parse(self, args: list[str]) -> Namespace:
+    def _parse(self, args: list[str]) -> Namespace | ArgumentError:
         try:
             parsed = self.parser_tree.parser.parse_args(args)
         except ArgumentError:
-            with parser_utils.without_required(self.parser_tree.parser) as parser:
-                parsed = parser.parse_args(args)
+            try:
+                with parser_utils.without_required(self.parser_tree.parser) as parser:
+                    parsed = parser.parse_args(args)
+            except ArgumentError as ae:
+                parsed = ae
         return parsed
 
